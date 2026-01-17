@@ -163,26 +163,41 @@ const MediaUpload = ({ onAnalyze, isAnalyzing, onReset }: MediaUploadProps) => {
       ) : (
         <div className="flex-1 flex flex-col">
           <div className="flex-1 bg-muted/50 rounded-lg relative overflow-hidden group">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-xl bg-forensic-navy flex items-center justify-center">
-                  {getFileIcon()}
+            {uploadedFile.type === "image" && uploadedFile.data && (
+              <img 
+                src={uploadedFile.data} 
+                alt="Preview" 
+                className="w-full h-full object-contain"
+              />
+            )}
+            
+            {uploadedFile.type === "video" && uploadedFile.data && (
+              <video 
+                src={uploadedFile.data}
+                controls
+                className="w-full h-full object-contain bg-black"
+              />
+            )}
+            
+            {uploadedFile.type === "audio" && uploadedFile.data && (
+              <div className="w-full h-full flex flex-col items-center justify-center gap-4">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-forensic-cyan flex items-center justify-center">
+                  <Music className="w-12 h-12 text-background" />
                 </div>
-                <p className="font-mono text-sm">{uploadedFile.name}</p>
-                <p className="text-xs text-muted-foreground mt-1 capitalize">{uploadedFile.type} file</p>
+                <p className="text-sm font-medium">{uploadedFile.name}</p>
+                <audio 
+                  src={uploadedFile.data}
+                  controls
+                  className="w-full max-w-xs"
+                />
               </div>
-            </div>
+            )}
             
             <button 
               onClick={clearUpload}
-              className="absolute top-3 right-3 p-2 rounded-full bg-background/80 hover:bg-background transition-colors opacity-0 group-hover:opacity-100"
+              className="absolute top-3 right-3 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
             >
               <X className="w-4 h-4" />
-            </button>
-
-            <button className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full bg-background/80 hover:bg-background transition-colors opacity-0 group-hover:opacity-100">
-              <Play className="w-4 h-4" />
-              <span className="text-sm">Preview</span>
             </button>
           </div>
 
